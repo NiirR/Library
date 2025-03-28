@@ -1,25 +1,33 @@
 package com.example.Library.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-
+import java.util.stream.Collectors;
 
 
 @Data
 @Entity
 public class User implements UserDetails {
 
-    public User(String username, String password, String firstName, String lastName, String email) {
+    public User(String username, String password, String firstName, String lastName, String email,
+                String city) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.city = city;
+        role = "USER";
     }
 
     @Id
@@ -33,18 +41,44 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
+    @Size(min = 3, max = 20 , message = "First name must be 3-20 characters long")
     private String firstName;
     @Column(nullable = false)
+    @Size(min = 3, max = 20 , message = "Last name must be 3-20 characters long")
     private String lastName;
     @Column(nullable = false)
     private String email;
+    @Column
+    private String city;
+    @Column
+    private String role;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    private LocalDate registrationDate;
 
     public User() {
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Arrays.stream(role.split(", "))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -65,6 +99,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getId() {
@@ -114,4 +156,5 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

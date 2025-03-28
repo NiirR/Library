@@ -4,60 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Library - Home</title>
+    <title data-th-text="#{label.home}"></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Онлайн-библиотека</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" href="/" data-th-text="#{label.home}"></a>
+        <a class="navbar-brand" href="/books?language=ru" data-th-text="#{label.lang.ru}"></a>
+        <a class="navbar-brand" href="/books?language=en" data-th-text="#{label.lang.en}"></a>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/login}">Войти</a>
+                    <a class="nav-link" th:href="@{/login}" data-th-text="#{button.login}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/sing-up}">Зарегистрироваться</a>
+                    <a class="nav-link" th:href="@{/sing-up}" data-th-text="#{button.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Выход</button>
-                    </form>
                 </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                sec:authentication="name">
+                            <i class="bi bi-list"></i> Меню
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+
+                            <li><a class="dropdown-item" th:href="@{/profile}" data-th-text="#{button.profile}">
+                                <i class="fas fa-user"></i></a></li>
+
+                            <!-- <li class="dropdown">
+                                 <a class="dropdown-item dropdown-toggle" href="#">
+                                     <i class="fas fa-gear"></i> Настройки</a>
+                             </li>-->
+
+                            <li><hr class="dropdown-divider"></li>
+                            <li><form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item" data-th-text="#{button.logout}">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+
+                            </li>
+                        </ul>
+                    </div>
             </ul>
         </div>
     </div>
 </nav>
+
+
 <div class="container text-center">
-<h1>Книги</h1>
-    <a th:href="@{/addbook}" class="btn btn-primary">Добавить книгу</a>
+<h1 data-th-text="#{label.books}"></h1>
+    <a th:href="@{/addbook}" class="btn btn-primary" data-th-text="#{label.AddBook}"></a>
     <table class="table table-responsive-md">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
+            <th data-th-text="#{label.book.title}"></th>
+            <th data-th-text="#{label.book.author}"></th>
             <th>Isbn</th>
-            <th>Available</th>
+            <th>Action</th>
         </tr>
         </thead>
-        <tr th:each="book:${allbooks}">
+        <tr th:each="book:${availablebooks}">
             <td th:text="${book.title}"></td>
             <td th:text="${book.author}"></td>
             <td th:text="${book.isbn}"></td>
-            <td th:text="${book.available}"></td>
             <td>
+                <a th:href="@{/borrow/{id}(id=${book.id})}" class="btn btn-success btn-sm" data-th-text="#{button.book.take}"></a>
                 <a th:href="@{/deleteBook/{id}(id=${book.id})}"
                    class="btn btn-danger btn-sm"
-                onclick="return confirm('Are you sure you want to delete this book?');">Удалить</a>
+                onclick="return confirm('Are you sure you want to delete this book?')" data-th-text="#{button.delete}"></a>
             </td>
         </tr>
     </table>
+    <button th:each="pageNumber : ${page_numbers}" class="">
+        <a th:href="@{books(page=${pageNumber}, limit=10)}" th:text="${pageNumber}" th:classappend="${pageNumber == page? 'active_page' : ''}"></a>
+    </button>
 </div>
+</script>
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
     <p class="mb-0">&copy; 2025 Онлайн-библиотека.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

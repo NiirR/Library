@@ -1,31 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Library - Home</title>
+    <title data-th-text="#{label.home}"></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Онлайн-библиотека</a>
+        <a class="navbar-brand"  href="/" data-th-text="#{label.home}"></a>
+        <a class="navbar-brand" href="/?language=ru" data-th-text="#{label.lang.ru}"></a>
+        <a class="navbar-brand" href="/?language=en" data-th-text="#{label.lang.en}"></a>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/login}">Войти</a>
+                    <a class="nav-link" th:href="@{/login}" data-th-text="#{button.login}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/sing-up}">Зарегистрироваться</a>
+                    <a class="nav-link" th:href="@{/sing-up}" data-th-text="#{button.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Выход</button>
-                    </form>
-                </li>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                        sec:authentication="name">
+                        <i class="bi bi-list"></i> Меню
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+
+                            <li><a class="dropdown-item" th:href="@{/profile}" data-th-text="#{button.profile}">
+                                <i class="fas fa-user"></i></a></li>
+
+                           <!-- <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">
+                                    <i class="fas fa-gear"></i> Настройки</a>
+                            </li>-->
+                         
+                            <li><hr class="dropdown-divider"></li>
+                            <li><form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item" data-th-text="#{button.logout}">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+
+                            </li>
+                        </ul>
+                    </div>
             </ul>
         </div>
     </div>
@@ -34,15 +59,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <main class="container mt-5 text-center">
-    <h1 class="mb-4">Добро пожаловать в онлайн-библиотеку!</h1>
-    <p class="lead mb-4">Здесь вы можете найти книги на любой вкус. Начните свое путешествие в мир знаний прямо сейчас!</p>
-    <a th:href="@{/books}" class="btn btn-primary btn-lg me-3">Посмотреть все книги</a>
-    <a th:href="@{/addbook}" class="btn btn-success btn-lg">Добавить новую книгу</a>
+    <h1 class="mb-4" data-th-text="#{label.text1}"></h1>
+    <p class="lead mb-4" data-th-text="#{label.text2}"></p>
+    <a th:href="@{/books}" class="btn btn-primary btn-lg" data-th-text="#{button.AllBooks}"></a>
+    <a th:href="@{/addbook}" class="btn btn-success btn-lg" data-th-text="#{button.AddBook}"></a>
+    <a th:href="@{/takenbooks}" class="btn btn-success btn-lg" data-th-text="#{button.book.return}"></a>
+    <br><br><a th:href="@{/users}" class="btn btn-info btn-lg" data-th-text="#{button.user.users}">Пользователи</a>
 </main>
 
 
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
     <p class="mb-0">&copy; 2025 Онлайн-библиотека.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

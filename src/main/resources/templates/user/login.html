@@ -9,12 +9,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" a href="/">Онлайн-библиотека</a>
+    <a class="navbar-brand" a href="/" data-th-text="#{label.home}"></a>
+    <a class="navbar-brand" href="/login?language=ru" data-th-text="#{label.lang.ru}"></a>
+    <a class="navbar-brand" href="/login?language=en" data-th-text="#{label.lang.en}"></a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-          <a class="nav-link" th:href="@{/login}">Войти</a>
+          <a class="nav-link" th:href="@{/login}" data-th-text="#{button.login}"></a>
         </li>
-          <a class="nav-link" th:href="@{/sing-up}">Зарегистрироваться</a>
+          <a class="nav-link" th:href="@{/sing-up}" data-th-text="#{button.register}"></a>
         </li>
       </ul>
     </div>
@@ -24,23 +26,29 @@
 <main class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h2 class="text-center mb-4">Login</h2>
+      <h2 class="text-center mb-4" data-th-text="#{label.register.label}"></h2>
       <form th:action="@{/login}" method="post">
         <div class="mb-3">
-          <label for="username" class="form-label">Логин</label>
+          <label for="username" class="form-label" data-th-text="#{label.login}"></label>
           <input type="text" class="form-control" id="username" name="username" required>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Пароль</label>
+          <label for="password" class="form-label" data-th-text="#{label.pass}"></label>
           <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Войти</button>
+          <button type="submit" class="btn btn-primary" data-th-text="#{button.login}"></button>
+          <br>
+          <div th:if="${param.error}" class="alert alert-danger text-center" role="alert" data-th-text="#{label.error.logAndPas}">
+            Неверный логин или пароль
+          </div>
         </div>
       </form>
     </div>
   </div>
 </main>
+
+
 
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
   <p class="mb-0">&copy; 2025 Онлайн-библиотека.</p>

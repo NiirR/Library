@@ -9,12 +9,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" a href="/">Онлайн-библиотека</a>
+        <a class="navbar-brand" a href="/" data-th-text="#{label.home}"></a>
+        <a class="navbar-brand" href="/sing-up?language=ru" data-th-text="#{label.lang.ru}"></a>
+        <a class="navbar-brand" href="/sing-up?language=en" data-th-text="#{label.lang.en}"></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                    <a class="nav-link" th:href="@{/login}">Войти</a>
+                    <a class="nav-link" th:href="@{/login}" data-th-text="#{button.login}"></a>
                 </li>
-                    <a class="nav-link" th:href="@{/sing-up}">Зарегистрироваться</a>
+                    <a class="nav-link" th:href="@{/sing-up}" data-th-text="#{button.register}"></a>
                 </li>
             </ul>
         </div>
@@ -24,30 +26,34 @@
 <main class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2 class="text-center mb-4">Регистрация</h2>
+            <h2 class="text-center mb-4" data-th-text="#{label.sing-up}"></h2>
             <form th:action="@{/register}" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Логин</label>
+                    <label for="username" class="form-label" data-th-text="#{label.login}"></label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Пароль</label>
+                    <label for="password" class="form-label" data-th-text="#{label.pass}"></label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="mb-3">
-                    <label for="firstName" class="form-label">Имя</label>
+                    <label for="firstName" class="form-label" data-th-text="#{label.user.firstName}"></label>
                     <input type="text" class="form-control" id="firstName" name="firstName" required>
                 </div>
                 <div class="mb-3">
-                    <label for="lastName" class="form-label">Фамилия</label>
+                    <label for="lastName" class="form-label" data-th-text="#{label.user.lastName}"></label>
                     <input type="text" class="form-control" id="lastName" name="lastName" required>
                 </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label" data-th-text="#{label.user.city}"></label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <button type="submit" class="btn btn-primary" data-th-text="#{button.register}">Зарегистрироваться</button>
                 </div>
             </form>
         </div>

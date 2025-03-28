@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Пользователи</title>
+  <title data-th-text="#{label.home}"></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
@@ -12,8 +12,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand" href="/" data-th-text="#{label.home}"></a>
-    <a class="navbar-brand" href="/users?language=ru" data-th-text="#{label.lang.ru}"></a>
-    <a class="navbar-brand" href="/users?language=en" data-th-text="#{label.lang.en}"></a>
+    <a class="navbar-brand" href="/profile?language=ru" data-th-text="#{label.lang.ru}"></a>
+    <a class="navbar-brand" href="/profile?language=en" data-th-text="#{label.lang.en}"></a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
@@ -57,36 +57,26 @@
 </nav>
 
 
-<div class="container text-center">
-  <h1 data-th-text="#{label.user.list}">Список пользователей</h1>
-  <table class="table table-responsive-md">
-    <thead>
-    <tr>
-      <th data-th-text="#{label.user.firstName}">Имя</th>
-      <th data-th-text="#{label.user.lastName}">Фамилия</th>
-      <th data-th-text="#{label.login}">Логин</th>
-      <th>Email</th>
-      <th data-th-text="#{label.user.city}">Город</th>
-      <th data-th-text="#{label.profile.dateReg}">Дата регистрации</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tr th:each="user:${allusers}">
-      <td th:text="${user.firstName}" ></td>
-      <td th:text="${user.lastName}"></td>
-      <td th:text="${user.username}"></td>
-      <td th:text="${user.email}"></td>
-      <td th:text="${user.city}"></td>
-      <td th:text="${user.registrationDate}"></td>
-      <td>
-        <a th:href="@{/deleteUser/{id}(id=${user.id})}"
-           class="btn btn-danger btn-sm"
-           onclick="return confirm('Are you sure you want to delete this user?')" data-th-text="#{button.delete}"></a>
-      </td>
-    </tr>
-  </table>
+
+<div class="container mt-5">
+  <div class="card mx-auto" style="width: 40rem;">
+    <div class="card-header">
+      <h2 class="text-center" data-th-text="#{label.user.profile}">Профиль пользователя</h2>
+    </div>
+    <div class="card-body">
+      <div class="text-center">
+        <h3 th:text="${user.FirstName + ' '} +  ${user.LastName}" ></h3>
+        <h3><p><strong data-th-text="#{label.profile.login}">Логин:</strong> <span th:text="${user.Username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.Email}"></span></p>
+        <p><strong data-th-text="#{label.profile.city}">Город:</strong> <span th:text="${user.City}"></span></p>
+        <p><strong data-th-text="#{label.profile.dateReg}">Дата регистрации:</strong> <span th:text="${user.RegistrationDate}"></span></p>
+        </h3>
+      </div>
+    </div>
+  </div>
 </div>
-</script>
+
+
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
   <p class="mb-0">&copy; 2025 Онлайн-библиотека.</p>
 </footer>

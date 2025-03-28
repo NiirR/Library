@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-th-text="#{label.home}"></title>
+    <title>Return book</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
@@ -12,8 +12,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/" data-th-text="#{label.home}"></a>
-        <a class="navbar-brand" href="/addbook?language=ru" data-th-text="#{label.lang.ru}"></a>
-        <a class="navbar-brand" href="/addbook?language=en" data-th-text="#{label.lang.en}"></a>
+        <a class="navbar-brand" href="/takenbooks?language=ru" data-th-text="#{label.lang.ru}"></a>
+        <a class="navbar-brand" href="/takenbooks?language=en" data-th-text="#{label.lang.en}"></a>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
@@ -56,34 +56,34 @@
     </div>
 </nav>
 
-<main class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center mb-4" data-th-text="#{label.newBook}"></h2>
-            <form th:action="@{/savebook}" method="post">
-                <div class="mb-3">
-                    <label for="title" class="form-label" data-th-text="#{label.book.title}"></label>
-                    <input type="text" class="form-control" id="title" name="title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="author" class="form-label" data-th-text="#{label.book.author}"></label>
-                    <input type="text" class="form-control" id="author" name="author" required>
-                </div>
-                <div class="mb-3">
-                    <label for="isbn" class="form-label">isbn</label>
-                    <input type="text" class="form-control" id="isbn" name="isbn" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary" data-th-text="#{label.AddBook}"></button>
-                </div>
-            </form>
-        </div>
-    </div>
-</main>
 
+<div class="container text-center">
+    <h1 data-th-text="#{label.books}"></h1>
+    <table class="table table-responsive-md">
+        <thead>
+        <tr>
+            <th data-th-text="#{label.book.title}"></th>
+            <th data-th-text="#{label.book.author}"></th>
+            <th>Isbn</th>
+            <th>User</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tr th:each="borrowRecord:${taken_book}">
+            <td th:text="${borrowRecord.getBook.getTitle}"></td>
+            <td th:text="${borrowRecord.getBook.getAuthor}"></td>
+            <td th:text="${borrowRecord.getBook.getIsbn}"></td>
+            <td th:text="${borrowRecord.getUser.getUsername}"></td>
+            <td>
+                <a th:href="@{/return/{id}(id=${borrowRecord.getId})}" class="btn btn-success btn-sm" data-th-text="#{button.book.return}"></a>
+            </td>
+        </tr>
+    </table>
+</div>
+</script>
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
     <p class="mb-0">&copy; 2025 Онлайн-библиотека.</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

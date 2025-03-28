@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LibraryController {
-    /*public boolean login = false;*/
+public boolean login = false;
+
 
     @GetMapping("/")
     public String home() {

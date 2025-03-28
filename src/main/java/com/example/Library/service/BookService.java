@@ -16,12 +16,17 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public Long getAllCount() {
+        return (long) bookRepository.findAll().size();
     }
 
-    public List<Book> getAvailableBooks() {
-       return bookRepository.findByAvailableTrue();
+    public List<Book> getAvailableBooks(int page , int limit) {
+        int offset = (page - 1) * limit;
+       return bookRepository.findByAvailableTrue(offset , limit);
+    }
+
+    public List<Book> getTakenBooks() {
+        return bookRepository.findByAvailableFalse();
     }
 
     public Book saveBook(Book book) {
